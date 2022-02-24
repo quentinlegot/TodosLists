@@ -14,14 +14,13 @@ export default function SignUpScreen({ navigation }) {
     .then(token => {
       setToken(token)
       setUsername(username)
+      navigation.navigate('Home')
     }).catch(err => setError(err))
   }
 
   return (
     <View style={styles.container}>
       <Text>{error}</Text>
-      <Text>Token is {token  === undefined ? "undefined" : (token === null ? "null" : token)}</Text>
-      <Text>username is {username}</Text>
       <Text>Nom d'utilisateur:</Text>
       <TextInput value={username} onChangeText={setUsername} onSubmitEditing={signup} style={styles.input}></TextInput>
       <Text>Mot de passe:</Text>

@@ -24,7 +24,7 @@ export default function signUp (username, password) {
         if (jsonResponse.errors != null){
             throw(jsonResponse.errors[0].message)
         }
-        return jsonResponse.data.signIn
+        return jsonResponse.data.signUp
     })
     .catch(error => {
         throw error
