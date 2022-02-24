@@ -12,7 +12,7 @@ import SignUpScreen from '../Screen/SignUpScreen'
 
 const Tab = createBottomTabNavigator()
 
-export default function App() {
+export default function Navigation() {
   return (
     <TokenContext.Consumer>
       {([token, setToken]) => (
