@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Text, View, TextInput, Button, StyleSheet } from 'react-native'
-import signUp from '../components/SignUp'
+import signUp from '../components/api/SignUp'
 import { UsernameContext, TokenContext } from '../Context/Context'
 
 export default function SignUpScreen({ navigation }) {

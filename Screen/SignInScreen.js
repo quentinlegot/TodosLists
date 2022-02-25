@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Text, TextInput, StyleSheet, Button, View } from 'react-native'
-import signIn from '../components/SignIn'
+import signIn from '../components/api/SignIn'
 import { UsernameContext, TokenContext } from '../Context/Context'
 
 export default function SignInScreen({ navigation }) {
