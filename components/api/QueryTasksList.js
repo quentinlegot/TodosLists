@@ -1,8 +1,9 @@
-const API_URL = 'http://127.0.0.1:4000'
+import { ApiUrl } from "./baseApi"
 
 const QUERY = "query taskLists($username: String!) { taskLists(where: { owner: { username: $username } }) { id title}}"
+
 export default function todoLists (username, token) {
-    return fetch(API_URL, {
+    return fetch(ApiUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -20,7 +21,7 @@ export default function todoLists (username, token) {
     })
     .then(jsonResponse => {
         if (jsonResponse.errors != null){
-            throw(jsonResponse.errors[0].message)
+            throw(jsonResponse.errors[0])
         }
         return jsonResponse.data.taskLists
     })

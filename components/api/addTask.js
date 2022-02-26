@@ -1,19 +1,19 @@
 import { ApiUrl } from "./baseApi"
 
-const SIGN_UP =
-  'mutation($username:String!, $password:String!){signUp(username:$username, password:$password)}'
+const QUERY = "mutation createTasks($username: String!, $taskTitle: String!) { createTaskLists(input: { title: $taskTitle owner: { connect: { where: { username: $username } } }}) {taskLists { id title } } }"
 
-export default function signUp (username, password) {
+export default function AddTask (username, title, token) {
     return fetch(ApiUrl, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'authorization': 'Bearer ' + token
         },
         body: JSON.stringify({
-            query: SIGN_UP,
+            query: QUERY,
             variables: {
                 username: username,
-                password: password
+                taskTitle: title
             }
         })
     })
@@ -24,7 +24,7 @@ export default function signUp (username, password) {
         if (jsonResponse.errors != null){
             throw(jsonResponse.errors[0])
         }
-        return jsonResponse.data.signUp
+        return jsonResponse.data.createTaskLists.taskLists[0]
     })
     .catch(error => {
         throw error

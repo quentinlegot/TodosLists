@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { FlatList, StyleSheet, Text, TouchableOpacity, Image, View } from 'react-native'
-import todoLists from '../components/api/TodoListsQuery'
+import todoLists from '../components/api/QueryTasksList'
 import TodoListItem from '../components/TodoListItem'
 import { UsernameContext, TokenContext } from '../Context/Context'
 import refreshLogo from '../assets/refresh-icon.png'
 import addLogo from '../assets/add-icon.png'
 import FloatingButton from '../components/FloatingButton'
 
-export default function TodoListsScreen({ navigation }) {
+export default function TodoListsScreen({ navigation, route }) {
   const [list, setList] = useState([])
   const [isLoadingVisible, setIsLoadingVisible] = useState(true)
   const [username] = useContext(UsernameContext)
@@ -25,6 +25,15 @@ export default function TodoListsScreen({ navigation }) {
       setIsLoadingVisible(false)
     })
   }
+  useEffect(() => {
+    // appelé quand après avoir ajouté un élément depuis la page addTask
+    if(route.params?.newItem) {
+      let newList = list
+      newList.push(route.params?.newItem)
+      setList(list)
+    }
+  }, [route.params?.newItem])
+
   const addItem = () => {
     navigation.push('AddTask')
   }

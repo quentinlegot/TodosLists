@@ -17,7 +17,7 @@ export default function SignInScreen({ navigation }) {
       setUsername(username)
       navigation.navigate('Home')
     })
-    .catch(err => setError(typeof err.message !== 'undefined' ? err.message : err))
+    .catch(err => setError(err.message))
   }
 
   return (

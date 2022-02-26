@@ -1,10 +1,10 @@
-const API_URL = 'http://127.0.0.1:4000'
+import { ApiUrl } from './baseApi'
 
 const SIGN_IN =
   'mutation($username:String!, $password:String!){signIn(username:$username, password:$password)}'
 
 export default function signIn (username, password) {
-    return fetch(API_URL, {
+    return fetch(ApiUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -22,7 +22,7 @@ export default function signIn (username, password) {
     })
     .then(jsonResponse => {
         if (jsonResponse.errors != null){
-            throw(jsonResponse.errors[0].message)
+            throw(jsonResponse.errors[0])
         }
         return jsonResponse.data.signIn
     })

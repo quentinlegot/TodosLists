@@ -9,7 +9,7 @@ export default function TodoListsStackScreen() {
   return (
     <SettingsStack.Navigator>
       <SettingsStack.Screen name="tasksList" component={TodoListsScreen} options={{tabBarLabel: "Liste des tâches", headerTitle: "Liste des tâches"}} />
-      <SettingsStack.Screen name="AddTask" component={AddTodoListsScreen} />
+      <SettingsStack.Screen name="AddTask" component={AddTodoListsScreen} options={{headerTitle: "Ajouter une tâche"}} />
     </SettingsStack.Navigator>
   );
 }

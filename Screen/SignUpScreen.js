@@ -16,7 +16,7 @@ export default function SignUpScreen({ navigation }) {
       setToken(token)
       setUsername(username)
       navigation.navigate('Home')
-    }).catch(err => setError(typeof err.message !== 'undefined' ? err.message : err))
+    }).catch(err => setError(err.message))
   }
 
   return (

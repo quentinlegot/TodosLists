@@ -15,7 +15,7 @@ import SignInScreen from '../Screen/SignInScreen'
 import SignOutScreen from '../Screen/SignOutScreen'
 import SignUpScreen from '../Screen/SignUpScreen'
 import TodoListsStackScreen from '../Screen/TodoListsStackScreen'
-import TabBarIcon from '../components/tabBarIcon'
+import TabBarIcon from '../components/TabBarIcon'
 
 const Tab = createBottomTabNavigator()
 
@@ -23,11 +23,11 @@ export default function Navigation() {
   return (
     <TokenContext.Consumer>
       {([token, setToken]) => (
-        <NavigationContainer>
+        <NavigationContainer >
           {token == null ? (
             <Tab.Navigator>
-              <Tab.Screen name='Signin' component={SignInScreen} options={{tabBarLabel: "Connexion", headerTitle: "Connexion", tabBarIcon: ({ focused, color, size }) => <TabBarIcon focused={focused} color={color} size={size} source={signinLogo} />}} />
-              <Tab.Screen name='Signup' component={SignUpScreen} options={{tabBarLabel: "Inscription", headerTitle: "Inscription", tabBarIcon:  ({ focused, color, size }) => <TabBarIcon focused={focused} color={color} size={size} source={signupLogo} />}} />
+              <Tab.Screen name='Signin' component={SignInScreen} options={{tabBarLabel: "Connexion", headerTitle: "Connexion", tabBarHideOnKeyboard: true, tabBarIcon: ({ focused, color, size }) => <TabBarIcon focused={focused} color={color} size={size} source={signinLogo} />}} />
+              <Tab.Screen name='Signup' component={SignUpScreen} options={{tabBarLabel: "Inscription", headerTitle: "Inscription", tabBarHideOnKeyboard: true, tabBarIcon:  ({ focused, color, size }) => <TabBarIcon focused={focused} color={color} size={size} source={signupLogo} />}} />
             </Tab.Navigator>
           ) : (
             <Tab.Navigator>
