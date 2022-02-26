@@ -5,17 +5,18 @@ import { UsernameContext, TokenContext } from '../Context/Context'
 
 export default function SignUpScreen({ navigation }) {
   const [ username, setUsername] = useContext(UsernameContext)
-  const [ token, setToken] = useContext(TokenContext)
+  const [, setToken] = useContext(TokenContext)
   const [ password, setPassword] = useState("")
   const [error, setError] = useState("")
 
   const signup = () => {
+    setError("")
     signUp(username, password)
     .then(token => {
       setToken(token)
       setUsername(username)
       navigation.navigate('Home')
-    }).catch(err => setError(err))
+    }).catch(err => setError(typeof err.message !== 'undefined' ? err.message : err))
   }
 
   return (

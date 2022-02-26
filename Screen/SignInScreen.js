@@ -10,15 +10,14 @@ export default function SignInScreen({ navigation }) {
   const [error, setError] = useState("")
 
   const signin = () => {
+    setError("")
     signIn(username, password)
     .then(token => {
       setToken(token)
       setUsername(username)
       navigation.navigate('Home')
     })
-    .catch(err => {
-      setError(err)
-    })
+    .catch(err => setError(typeof err.message !== 'undefined' ? err.message : err))
   }
 
   return (
