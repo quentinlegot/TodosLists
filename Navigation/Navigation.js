@@ -1,16 +1,23 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Image } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { TokenContext } from '../Context/Context'
+
+import homeLogo from '../assets/home-icon.png'
+import signinLogo from '../assets/signin-icon.png'
+import signupLogo from '../assets/signup-icon.png'
+import taskListLogo from '../assets/list-icon.png'
+import signoutLogo from '../assets/signout-icon.png'
 
 import HomeScreen from '../Screen/HomeScreen'
 import SignInScreen from '../Screen/SignInScreen'
 import SignOutScreen from '../Screen/SignOutScreen'
 import SignUpScreen from '../Screen/SignUpScreen'
 import TodoListsStackScreen from '../Screen/TodoListsStackScreen'
+import TabBarIcon from '../components/tabBarIcon'
 
-const Tab = createMaterialBottomTabNavigator()
+const Tab = createBottomTabNavigator()
 
 export default function Navigation() {
   return (
@@ -19,14 +26,14 @@ export default function Navigation() {
         <NavigationContainer>
           {token == null ? (
             <Tab.Navigator>
-              <Tab.Screen name='Signin' component={SignInScreen} options={{tabBarLabel: "Connexion", headerTitle: "Connexion", }} />
-              <Tab.Screen name='Signup' component={SignUpScreen} options={{tabBarLabel: "Inscription", headerTitle: "Inscription"}} />
+              <Tab.Screen name='Signin' component={SignInScreen} options={{tabBarLabel: "Connexion", headerTitle: "Connexion", tabBarIcon: ({ focused, color, size }) => <TabBarIcon focused={focused} color={color} size={size} source={signinLogo} />}} />
+              <Tab.Screen name='Signup' component={SignUpScreen} options={{tabBarLabel: "Inscription", headerTitle: "Inscription", tabBarIcon:  ({ focused, color, size }) => <TabBarIcon focused={focused} color={color} size={size} source={signupLogo} />}} />
             </Tab.Navigator>
           ) : (
             <Tab.Navigator>
-              <Tab.Screen name='Home' component={HomeScreen} options={{tabBarLabel: "Accueil", headerTitle: "Accueil"}} />
-              <Tab.Screen name='taskListStack' component={TodoListsStackScreen} options={{headerShown: false, tabBarLabel: "Liste des tâches"}} />
-              <Tab.Screen name='SignOut' component={SignOutScreen} options={{tabBarLabel: "Se déconnecter"}} />
+              <Tab.Screen name='Home' component={HomeScreen} options={{tabBarLabel: "Accueil", headerTitle: "Accueil", tabBarIcon: ({ focused, color, size }) => <TabBarIcon focused={focused} color={color} size={size} source={homeLogo} /> }} />
+              <Tab.Screen name='taskListStack' component={TodoListsStackScreen} options={{tabBarLabel: "Liste des tâches", headerShown: false, tabBarIcon: ({ focused, color, size }) => <TabBarIcon focused={focused} color={color} size={size} source={taskListLogo} />}} />
+              <Tab.Screen name='SignOut' component={SignOutScreen} options={{tabBarLabel: "Se déconnecter", tabBarIcon:  ({ focused, color, size }) => <TabBarIcon focused={focused} color={color} size={size} source={signoutLogo} /> }} />
             </Tab.Navigator>
           )}
         </NavigationContainer>

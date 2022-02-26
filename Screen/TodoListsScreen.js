@@ -9,15 +9,20 @@ import FloatingButton from '../components/FloatingButton'
 
 export default function TodoListsScreen({ navigation }) {
   const [list, setList] = useState([])
+  const [isLoadingVisible, setIsLoadingVisible] = useState(true)
   const [username] = useContext(UsernameContext)
   const [token] = useContext(TokenContext)
   const [error, setError] = useState("")
   const todoListsRequest = () => {
+    setList([])
+    setIsLoadingVisible(true)
+    setError("")
     todoLists(username, token).then(result => {
       setList(result)
-      setError("")
+      setIsLoadingVisible(false)
     }).catch(err => {
       setError(err)
+      setIsLoadingVisible(false)
     })
   }
   const addItem = () => {
@@ -30,6 +35,7 @@ export default function TodoListsScreen({ navigation }) {
   return (
     <>
       <Text>{error}</Text>
+      <Text style={isLoadingVisible ? {textAlign: 'center'} : {display: 'none'}}>chargement en cours</Text>
       <FlatList data={list} renderItem={({item}) => <TodoListItem item={item} />}></FlatList>
       <FloatingButton position={styles.floatingButton1} function={todoListsRequest} image={refreshLogo} />
       <FloatingButton position={styles.floatingButton2} function={addItem} image={addLogo} />
