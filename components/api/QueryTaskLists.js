@@ -2,7 +2,7 @@ import { ApiUrl } from "./baseApi"
 
 const QUERY = "query taskLists($username: String!) { taskLists(where: { owner: { username: $username } }) { id title}}"
 
-export default function todoLists (username, token) {
+export default function TaskLists (username, token) {
     return fetch(ApiUrl, {
         method: 'POST',
         headers: {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { FlatList, StyleSheet, Text, TouchableOpacity, Image, View } from 'react-native'
-import todoLists from '../components/api/QueryTasksList'
+import todoLists from '../components/api/QueryTaskLists'
 import deleteTasksList from '../components/api/deleteItem'
 import TodoListItem from '../components/TodoListItem'
 import { UsernameContext, TokenContext } from '../Context/Context'
