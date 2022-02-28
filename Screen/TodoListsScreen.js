@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { FlatList, StyleSheet, Text, TouchableOpacity, Image, View } from 'react-native'
 import todoLists from '../components/api/QueryTasksList'
+import deleteTasksList from '../components/api/deleteItem'
 import TodoListItem from '../components/TodoListItem'
 import { UsernameContext, TokenContext } from '../Context/Context'
 import refreshLogo from '../assets/refresh-icon.png'
@@ -30,12 +31,20 @@ export default function TodoListsScreen({ navigation, route }) {
     if(route.params?.newItem) {
       let newList = list
       newList.push(route.params?.newItem)
-      setList(list)
+      setList(newList)
     }
   }, [route.params?.newItem])
 
   const addItem = () => {
     navigation.push('AddTask')
+  }
+  const deleteItem = (id) => {
+    setError("")
+    deleteTasksList(id, token).then(nodesDeleted => {
+      setList(list.filter((v) => v.id !== id))
+    }).catch(err => {
+      setError(err)
+    })
   }
   useEffect(() => {
     // appelé au premier chargement du composant
@@ -45,8 +54,9 @@ export default function TodoListsScreen({ navigation, route }) {
     <>
     <View style={{justifyContent: "center", alignItems: "center"}}>
       <Text style={styles.text_items}>{error}</Text>
-      <Text style={[isLoadingVisible ? {textAlign: 'center'} : {display: 'none'}, styles.text_items]}>chargement en cours</Text>
-      <FlatList data={list} renderItem={({item}) => <TodoListItem item={item} />} style={{marginTop:20}}></FlatList>
+      <Text style={styles.text_items}>{isLoadingVisible ? "chargement en cours" : ""}</Text>
+      <Text style={styles.text_items}>{list.length === 0 && !isLoadingVisible ? "Aucune tâche, vous pouvez en créer une nouvelle en appuyant sur le bouton +" : ""}</Text>
+      <FlatList data={list} renderItem={({item}) => <TodoListItem navigation={navigation} item={item} delete={deleteItem} />} style={{marginTop:20}}></FlatList>
     </View>
     <FloatingButton position={styles.floatingButton1} function={todoListsRequest} image={refreshLogo} />
     <FloatingButton position={styles.floatingButton2} function={addItem} image={addLogo} />
@@ -62,6 +72,7 @@ const styles = StyleSheet.create({
     bottom: 80,
   },
   text_items: {
-    marginTop: 20
+    marginTop: 20,
+    textAlign: 'center'
   }
 })

@@ -2,14 +2,14 @@ import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native"
 import deleteIcon from '../assets/delete-icon.png'
 
 export default function TodoListItem(props) {
-    
+
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => props.navigation.push('TaskList', {taskList: props.item})}>
             <Text style={styles.text_item}>{props.item.title}</Text>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={() => props.delete(props.item.id)}>
                 <Image source={deleteIcon} style={{ height: 24, width: 24 }} />
             </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
     )
 }
 

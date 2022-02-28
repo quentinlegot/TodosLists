@@ -1,1 +1,1 @@
-export const ApiUrl = 'http://127.0.0.1:4000'
+export const ApiUrl = 'http://altarik.fr:4000'

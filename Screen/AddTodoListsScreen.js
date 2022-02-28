@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import {Button, StyleSheet, Text, TextInput, View } from 'react-native'
 import { TokenContext, UsernameContext } from '../Context/Context'
-import addTask from '../components/api/addTask'
+import addTask from '../components/api/addTaskList'
 
 export default function AddTodoListsScreen({ navigation }) {
     const [value, setValue] = useState("")
@@ -11,7 +11,7 @@ export default function AddTodoListsScreen({ navigation }) {
     const submit = () => {
         setError("")
         addTask(username, value, token).then(task => {
-          navigation.navigate('tasksList', {newItem: task})
+          navigation.navigate('tasksLists', {newItem: task})
         }).catch(err => {
           setError(err.message)
         })
