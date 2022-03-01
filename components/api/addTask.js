@@ -1,8 +1,8 @@
 import { ApiUrl } from "./baseApi"
 
-const QUERY = "mutation createTasks($username: String!, $taskTitle: String!) { createTaskLists(input: { title: $taskTitle owner: { connect: { where: { username: $username } } }}) {taskLists { id title } } }"
+const QUERY = "mutation($content: String!, $taskListId: ID!) {createTasks(input: {content: $content, belongsTo: { connect: { where: { id: $taskListId } } }}) {tasks {id content done}}}"
 
-export default function AddTaskList (username, title, token) {
+export default function AddTask (content, taskListId, token) {
     return fetch(ApiUrl, {
         method: 'POST',
         headers: {
@@ -12,8 +12,8 @@ export default function AddTaskList (username, title, token) {
         body: JSON.stringify({
             query: QUERY,
             variables: {
-                username: username,
-                taskTitle: title
+                content: content,
+                taskListId: taskListId
             }
         })
     })
@@ -24,7 +24,7 @@ export default function AddTaskList (username, title, token) {
         if (jsonResponse.errors != null){
             throw(jsonResponse.errors[0])
         }
-        return jsonResponse.data.createTaskLists.taskLists[0]
+        return jsonResponse.data.createTasks.tasks[0]
     })
     .catch(error => {
         throw error

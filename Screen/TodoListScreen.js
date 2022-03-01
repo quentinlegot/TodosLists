@@ -15,6 +15,11 @@ export default function TodoListScreen({ navigation, route }) {
         navigation.setOptions({headerTitle: route.params?.taskList.title})
         request()
     }, [])
+    useEffect(() => {
+        let newTasks = tasks
+        newTasks.push(route.params?.newElement)
+        setTasks(newTasks)
+    }, [route.params?.newElement])
     const request = () => {
         setError("")
         QueryTasks(route.params?.taskList.id, token).then(result => {
@@ -32,7 +37,7 @@ export default function TodoListScreen({ navigation, route }) {
         })
     }
     const addItem = () => {
-        navigation.push('AddTodo')
+        navigation.push('AddTodo', {taskListId: route.params?.taskList.id})
     }
     return (
     <>

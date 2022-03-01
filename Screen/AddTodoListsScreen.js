@@ -19,7 +19,7 @@ export default function AddTodoListsScreen({ navigation }) {
     return (
         <View style={styles.container}>
             <Text>{error}</Text>
-            <Text>Nom de la tâche</Text>
+            <Text>Nom de la liste des tâches</Text>
             <TextInput value={value} onChangeText={setValue} onSubmitEditing={submit} style={styles.input}></TextInput>
             <Button onPress={submit} title="Confirmer" style={styles.button}></Button>
         </View>
