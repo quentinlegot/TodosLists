@@ -14,7 +14,7 @@ import HomeScreen from '../Screen/HomeScreen'
 import SignInScreen from '../Screen/SignInScreen'
 import SignOutScreen from '../Screen/SignOutScreen'
 import SignUpScreen from '../Screen/SignUpScreen'
-import TodoListsStackScreen from '../Screen/TodoListsStackScreen'
+import TodoListsStackScreen from './TodoListsStackScreen'
 import TabBarIcon from '../components/TabBarIcon'
 
 const Tab = createBottomTabNavigator()
@@ -32,7 +32,7 @@ export default function Navigation() {
           ) : (
             <Tab.Navigator>
               <Tab.Screen name='Home' component={HomeScreen} options={{tabBarLabel: "Accueil", headerTitle: "Accueil", tabBarIcon: ({ focused, color, size }) => <TabBarIcon focused={focused} color={color} size={size} source={homeLogo} /> }} />
-              <Tab.Screen name='taskListStack' component={TodoListsStackScreen} options={{tabBarLabel: "Liste des tâches", headerShown: false, tabBarIcon: ({ focused, color, size }) => <TabBarIcon focused={focused} color={color} size={size} source={taskListLogo} />}} />
+              <Tab.Screen name='taskListStack' component={TodoListsStackScreen} options={{tabBarLabel: "Liste des tâches", headerShown: false, tabBarHideOnKeyboard: true, tabBarIcon: ({ focused, color, size }) => <TabBarIcon focused={focused} color={color} size={size} source={taskListLogo} />}} />
               <Tab.Screen name='SignOut' component={SignOutScreen} options={{tabBarLabel: "Se déconnecter", tabBarIcon:  ({ focused, color, size }) => <TabBarIcon focused={focused} color={color} size={size} source={signoutLogo} /> }} />
             </Tab.Navigator>
           )}

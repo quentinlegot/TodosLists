@@ -1,15 +1,16 @@
 import React, { useContext, useState } from 'react'
 import { TextInput, StyleSheet, Button, Text, View } from 'react-native'
-import AddTask from '../components/api/addTask'
 import { TokenContext } from '../Context/Context'
+import updateTask from '../components/api/changeTaskContent'
 
-export default function AddTodoScreen({navigation, route}) {
+export default function EditTodoScreen({navigation, route}) {
     const [token] = useContext(TokenContext)
     const [error, setError] = useState("")
-    const [value, setValue] = useState("")
+    const [value, setValue] = useState(route.params?.item.content)
     const submit = () => {
-        AddTask(value, route.params?.taskList.id, token).then(v => {
-            navigation.navigate("TaskList", {newElement: v, taskList: route.params?.taskList })
+        setError("")
+        updateTask(route.params?.item.id, value, route.params?.item.done, token).then(v => {
+            navigation.navigate('TaskList', {editedElement: {id: route.params?.item.id, value, done: route.params?.item.done}, taskList: route.params?.taskList})
         }).catch(err => {
             setError(err.message)
         })

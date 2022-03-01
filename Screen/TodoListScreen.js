@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { FlatList, StyleSheet, Text } from 'react-native'
+import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native'
 import QueryTasks from '../components/api/QueryTasks'
 import TodoItem from '../components/TodoItem'
 import { TokenContext } from '../Context/Context'
 import deleteTask from "../components/api/deleteTask"
 import FloatingButton from '../components/FloatingButton'
 import addLogo from '../assets/add-icon.png'
+import refreshLogo from '../assets/refresh-icon.png'
 
 export default function TodoListScreen({ navigation, route }) {
     const [token] = useContext(TokenContext)
@@ -20,8 +21,12 @@ export default function TodoListScreen({ navigation, route }) {
         newTasks.push(route.params?.newElement)
         setTasks(newTasks)
     }, [route.params?.newElement])
+    useEffect(() => {
+        request()
+    }, [route.params?.editedElement])
     const request = () => {
         setError("")
+        setTasks([])
         QueryTasks(route.params?.taskList.id, token).then(result => {
             setTasks(result)
         }).catch(err => {
@@ -37,13 +42,17 @@ export default function TodoListScreen({ navigation, route }) {
         })
     }
     const addItem = () => {
-        navigation.push('AddTodo', {taskListId: route.params?.taskList.id})
+        navigation.push('AddTodo', {taskList: route.params?.taskList})
     }
     return (
     <>
-        <Text>{error}</Text>
-        <FlatList data={tasks} renderItem={({item}) => <TodoItem item={item} setError={setError} deleteItem={deleteItem}></TodoItem>}></FlatList>
-        <FloatingButton position={styles.floatingButton1} function={addItem} image={addLogo} />
+        <View style={{justifyContent: "center", alignItems: "center"}}>
+            <Text>{error}</Text>
+            <FlatList data={tasks} renderItem={({item}) => <TodoItem item={item} setError={setError} deleteItem={deleteItem} navigation={navigation} taskList={route.params?.taskList} />}></FlatList>
+        </View>
+        <View style={{height: 150, width: Dimensions.get('window').width}} />
+        <FloatingButton position={styles.floatingButton2} function={addItem} image={addLogo} />
+        <FloatingButton position={styles.floatingButton1} function={request} image={refreshLogo} />
     </>
   )
 }
