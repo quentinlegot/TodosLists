@@ -1,3 +1,4 @@
+import React from 'react'
 import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native"
 import deleteIcon from '../assets/delete-icon.png'
 

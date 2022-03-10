@@ -1,3 +1,4 @@
+import React from 'react'
 import { StyleSheet, TouchableOpacity, Image } from "react-native"
 
 export default function FloatingButton(props) {
