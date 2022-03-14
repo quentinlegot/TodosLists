@@ -8,15 +8,18 @@ import updateTask from '../components/api/changeTaskContent'
 export default function TodoItem(props) {
     const [token] = useContext(TokenContext)
     const [done, setDone] = useState(props.item.done)
+    const [cptDone, setCptDone] = props.cptDone
     const [content, setContent] = useState(props.item.content)
     const [contentInput, setContentInput] = useState(props.item.content)
     const changeTaskState = (id, content, done) => {
         return new Promise((resolve, reject) => {
             props.setError("")
             updateTask(id, content, done, token).then(new_v => {
+                props.updateItem(id, new_v)
                 setContent(new_v.content)
                 setContentInput(new_v.content)
                 setDone(new_v.done)
+                setCptDone(cptDone + (new_v.done === true ? 1 : -1))
                 resolve()
             }).catch(err => {
                 props.setError(err.message)
