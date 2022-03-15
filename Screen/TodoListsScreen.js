@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { FlatList, StyleSheet, Text, TouchableOpacity, Image, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View, ActivityIndicator } from 'react-native'
 import todoLists from '../components/api/QueryTaskLists'
 import deleteTasksList from '../components/api/deleteItem'
 import TodoListItem from '../components/TodoListItem'
@@ -29,9 +29,7 @@ export default function TodoListsScreen({ navigation, route }) {
   useEffect(() => {
     // appelé quand après avoir ajouté un élément depuis la page addTask
     if(route.params?.newItem) {
-      let newList = list
-      newList.push(route.params?.newItem)
-      setList(newList)
+      todoListsRequest()
     }
   }, [route.params?.newItem])
 
@@ -54,7 +52,7 @@ export default function TodoListsScreen({ navigation, route }) {
     <>
     <View style={{justifyContent: "center", alignItems: "center"}}>
       <Text style={styles.text_items}>{error}</Text>
-      <Text style={styles.text_items}>{isLoadingVisible ? "chargement en cours" : ""}</Text>
+      {isLoadingVisible ? ( <ActivityIndicator size={'large'} style={{paddingTop: 50}} />) : (<></>)}
       <Text style={styles.text_items}>{list.length === 0 && !isLoadingVisible ? "Aucune tâche, vous pouvez en créer une nouvelle en appuyant sur le bouton +" : ""}</Text>
       <FlatList data={list} renderItem={({item}) => <TodoListItem navigation={navigation} item={item} delete={deleteItem} />} style={{marginTop:20}}></FlatList>
     </View>

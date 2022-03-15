@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Image, View, Text, StyleSheet, Switch, TouchableOpacity, TextInput } from 'react-native';
+import { Image, View, Text, StyleSheet, Switch, TouchableOpacity, TextInput, Dimensions } from 'react-native';
 import deleteIcon from '../assets/delete-icon.png'
 import editIcon from '../assets/edit-icon.png'
 import { TokenContext } from "../Context/Context";
@@ -36,25 +36,27 @@ export default function TodoItem(props) {
     return (
         <View style={styles.content}>
             <Switch value={done} onValueChange={changeDoneState} />
-            <Text style={[styles.text_item, { textDecorationLine: done ? 'line-through' : 'none' }]}>{content}</Text>
-            <TextInput style={[styles.hide, styles.text_item, styles.text_input]} value={contentInput} onChangeText={setContentInput}></TextInput>
             <TouchableOpacity onPress={editTask}>
                 <Image source={editIcon} style={{ height: 24, width: 24 }} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.deleteItem(props.item.id)}>
                 <Image source={deleteIcon} style={{ height: 24, width: 24 }} />
             </TouchableOpacity>
+            <Text style={[styles.text_item, { textDecorationLine: done ? 'line-through' : 'none' }]}>{content}</Text>
+            <TextInput style={[styles.hide, styles.text_item, styles.text_input]} value={contentInput} onChangeText={setContentInput}></TextInput>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     content: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        width: Dimensions.get("window").width,
+        marginLeft: 7
     },
     text_item: {
         marginLeft: 10,
-        width: 250,
+        width: Dimensions.get("window").width - 120,
         maxHeight: 24,
         
     },

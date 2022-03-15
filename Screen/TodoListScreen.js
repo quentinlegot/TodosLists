@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Dimensions, FlatList, StyleSheet, Text, View, Button } from 'react-native'
+import { FlatList, StyleSheet, Text, View, Button, ActivityIndicator, Dimensions } from 'react-native'
 import QueryTasks from '../components/api/QueryTasks'
 import TodoItem from '../components/TodoItem'
 import { TokenContext } from '../Context/Context'
@@ -16,29 +16,31 @@ export default function TodoListScreen({ navigation, route }) {
     const [cptDone, setCptDone] = useState(0)
     const [isFiltering, setIsFiltering] = useState(false)
     const [filterDoneState, setFilterDoneState] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         navigation.setOptions({headerTitle: route.params?.taskList.title})
         request()
     }, [])
     useEffect(() => {
-        let newTasks = tasks
-        newTasks.push(route.params?.newElement)
-        setTasks(newTasks)
+        request()
     }, [route.params?.newElement])
     useEffect(() => {
         request()
     }, [route.params?.editedElement])
     const request = () => {
+        setIsLoading(true)
         setError("")
         setTasks([])
         setCptDone(0)
         QueryTasks(route.params?.taskList.id, token).then(result => {
             setTasks(result)
             setCptDone(result.filter(item => item.done === true).length)
+            setIsLoading(false)
         }).catch(err => {
             setError(err.message)
             setCptDone(0)
+            setIsLoading(false)
         })
     }
 
@@ -84,12 +86,15 @@ export default function TodoListScreen({ navigation, route }) {
         setError("")
         setTasks([])
         setCptDone(0)
+        setIsLoading(true)
         updateTasks(route.params?.taskList.id, state, token).then(result => {
             setTasks(result)
             setCptDone(result.filter(item => item.done === true).length)
+            setIsLoading(false)
         }).catch(err => {
             setError(err.message)
             setCptDone(0)
+            setIsLoading(false)
         })
     }
 
@@ -103,19 +108,18 @@ export default function TodoListScreen({ navigation, route }) {
 
     return (
     <>
-        <View>
-            {isOneIsNotSelected() ? (<Button onPress={() => {selectAll(true)}} title="Tout Selectionner" />) : (<></>)}
-            {isOneIsNotUnselected() ? (<Button onPress={() => {selectAll(false)}} title="Tout Désectionner" />) : (<></>)}
-            {!isFiltering || (isFiltering && filterDoneState === false) ? (<Button onPress={() => {setIsFiltering(true); setFilterDoneState(true)}} title="Afficher que les tâches cochées" />) : (<></>)}
-            {!isFiltering || (isFiltering && filterDoneState === true) ?  (<Button onPress={() => {setIsFiltering(true);setFilterDoneState(false)}} title="Afficher que les tâches décochées" />) : (<></>)}
-            {isFiltering ? (<Button onPress={() => {setIsFiltering(false)}} title="Afficher toutes les tâches" />) : (<></>)}
-        </View>
-        <View style={{justifyContent: "center", alignItems: "center"}}>
-            <Text>{error}</Text>
-            <Text>{cptDone} tâches terminés</Text>
-            <FlatList data={tasks.filter(taskFilter)} renderItem={({item}) => <TodoItem item={item} cptDone={[cptDone, setCptDone]} setError={setError} deleteItem={deleteItem} navigation={navigation} taskList={route.params?.taskList} updateItem={updateItem} />}></FlatList>
-        </View>
-        <View style={{height: 150, width: Dimensions.get('window').width}} />
+        {isLoading ? (<ActivityIndicator size={'large'} style={{paddingTop: 50}} />) : (
+            <>
+                {isOneIsNotSelected() ? (<Button style={styles.button} onPress={() => {selectAll(true)}} title="Tout Selectionner" />) : (<></>)}
+                {isOneIsNotUnselected() ? (<Button style={styles.button}  onPress={() => {selectAll(false)}} title="Tout Désectionner" />) : (<></>)}
+                {!isFiltering || (isFiltering && filterDoneState === false) ? (<Button style={styles.button}  onPress={() => {setIsFiltering(true); setFilterDoneState(true)}} title="Afficher que les tâches cochées" />) : (<></>)}
+                {!isFiltering || (isFiltering && filterDoneState === true) ?  (<Button style={styles.button}  onPress={() => {setIsFiltering(true);setFilterDoneState(false)}} title="Afficher que les tâches décochées" />) : (<></>)}
+                {isFiltering ? (<Button style={styles.button}  onPress={() => {setIsFiltering(false)}} title="Afficher toutes les tâches" />) : (<></>)}
+                <Text>{error}</Text>
+                <Text>{cptDone} tâches terminés</Text>
+                <FlatList data={tasks.filter(taskFilter)} renderItem={({item}) => <TodoItem item={item} cptDone={[cptDone, setCptDone]} setError={setError} deleteItem={deleteItem} navigation={navigation} taskList={route.params?.taskList} updateItem={updateItem} />}></FlatList>
+            </>
+        )}
         <FloatingButton position={styles.floatingButton2} function={addItem} image={addLogo} />
         <FloatingButton position={styles.floatingButton1} function={request} image={refreshLogo} />
     </>
@@ -129,5 +133,8 @@ const styles = StyleSheet.create({
       },
       floatingButton2: {
         bottom: 80,
+      },
+      button: {
+        width: Dimensions.get('screen').width.toFixed()
       }
 })

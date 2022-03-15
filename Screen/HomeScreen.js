@@ -9,7 +9,6 @@ export default function HomeScreen() {
     <>
       <Text>Welcome !</Text>
       <Text>You are logged as {username}</Text>
-      <Text>{token}</Text>
     </>
   )
 }
