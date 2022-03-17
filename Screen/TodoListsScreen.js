@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { FlatList, StyleSheet, Text, View, ActivityIndicator } from 'react-native'
+import { FlatList, StyleSheet, Text, View, ActivityIndicator, PermissionsAndroid } from 'react-native'
 import todoLists from '../components/api/QueryTaskLists'
 import deleteTasksList from '../components/api/deleteItem'
 import TodoListItem from '../components/TodoListItem'
@@ -44,6 +44,11 @@ export default function TodoListsScreen({ navigation, route }) {
       setError(err)
     })
   }
+
+  /* const exportToJson = () => {
+    const granted = await PermissionsAndroid.requestMultiple([PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE])
+  } */
+
   useEffect(() => {
     // appelé au premier chargement du composant
     todoListsRequest()
