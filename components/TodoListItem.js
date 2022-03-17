@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native"
+import { StyleSheet, View, Text, TouchableOpacity, Image, Dimensions } from "react-native"
 import deleteIcon from '../assets/delete-icon.png'
 
 export default function TodoListItem(props) {
@@ -17,20 +17,16 @@ export default function TodoListItem(props) {
 const styles = StyleSheet.create({
     container: {
         margin: 15,
+        backgroundColor: '#f3eeff',
         borderRadius: 3,
-        shadowColor: "#000",
-        shadowOffset: {
-	        width: 0,
-	        height: 3,
-        },
-        shadowOpacity: 0.27,
-        shadowRadius: 4.65,
-        elevation: 6,
+        shadowColor: "black",
+        elevation: 3.5,
         padding: 15,
         flexDirection: 'row',
+        width: Dimensions.get("window").width - 80
     },
     text_item: {
         marginLeft: 10,
-        width: 150
+        width: Dimensions.get("window").width - 140
     }
 })

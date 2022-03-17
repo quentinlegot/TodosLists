@@ -110,14 +110,14 @@ export default function TodoListScreen({ navigation, route }) {
     <>
         {isLoading ? (<ActivityIndicator size={'large'} style={{paddingTop: 50}} />) : (
             <>
-                {isOneIsNotSelected() ? (<Button style={styles.button} onPress={() => {selectAll(true)}} title="Tout Selectionner" />) : (<></>)}
-                {isOneIsNotUnselected() ? (<Button style={styles.button}  onPress={() => {selectAll(false)}} title="Tout Désectionner" />) : (<></>)}
-                {!isFiltering || (isFiltering && filterDoneState === false) ? (<Button style={styles.button}  onPress={() => {setIsFiltering(true); setFilterDoneState(true)}} title="Afficher que les tâches cochées" />) : (<></>)}
-                {!isFiltering || (isFiltering && filterDoneState === true) ?  (<Button style={styles.button}  onPress={() => {setIsFiltering(true);setFilterDoneState(false)}} title="Afficher que les tâches décochées" />) : (<></>)}
-                {isFiltering ? (<Button style={styles.button}  onPress={() => {setIsFiltering(false)}} title="Afficher toutes les tâches" />) : (<></>)}
+                {isOneIsNotSelected() ? (<Button color={button_color} style={styles.button} onPress={() => {selectAll(true)}} title="Tout Selectionner" />) : (<></>)}
+                {isOneIsNotUnselected() ? (<Button color={button_color} style={styles.button}  onPress={() => {selectAll(false)}} title="Tout Déselectionner" />) : (<></>)}
+                {!isFiltering || (isFiltering && filterDoneState === false) ? (<Button color={button_color} style={styles.button}  onPress={() => {setIsFiltering(true); setFilterDoneState(true)}} title="Afficher que les tâches cochées" />) : (<></>)}
+                {!isFiltering || (isFiltering && filterDoneState === true) ?  (<Button color={button_color} style={styles.button}  onPress={() => {setIsFiltering(true);setFilterDoneState(false)}} title="Afficher que les tâches décochées" />) : (<></>)}
+                {isFiltering ? (<Button color={button_color} style={styles.button}  onPress={() => {setIsFiltering(false)}} title="Afficher toutes les tâches" />) : (<></>)}
                 <Text>{error}</Text>
-                <Text>{cptDone} tâches terminés</Text>
-                <FlatList data={tasks.filter(taskFilter)} renderItem={({item}) => <TodoItem item={item} cptDone={[cptDone, setCptDone]} setError={setError} deleteItem={deleteItem} navigation={navigation} taskList={route.params?.taskList} updateItem={updateItem} />}></FlatList>
+                <Text style={{textAlign: 'center', textDecorationLine: 'underline'}}>{cptDone} tâches terminés</Text>
+                <FlatList style={{paddingTop: 20}} data={tasks.filter(taskFilter)} renderItem={({item}) => <TodoItem item={item} cptDone={[cptDone, setCptDone]} setError={setError} deleteItem={deleteItem} navigation={navigation} taskList={route.params?.taskList} updateItem={updateItem} />}></FlatList>
             </>
         )}
         <FloatingButton position={styles.floatingButton2} function={addItem} image={addLogo} />
@@ -136,5 +136,7 @@ const styles = StyleSheet.create({
       },
       button: {
         width: Dimensions.get('screen').width.toFixed()
-      }
+      },
 })
+
+const button_color = '#bb565a'
