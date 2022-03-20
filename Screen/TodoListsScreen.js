@@ -7,6 +7,7 @@ import { UsernameContext, TokenContext } from '../Context/Context'
 import refreshLogo from '../assets/refresh-icon.png'
 import addLogo from '../assets/add-icon.png'
 import FloatingButton from '../components/FloatingButton'
+import { useIsFocused } from '@react-navigation/native'
 
 export default function TodoListsScreen({ navigation, route }) {
   const [list, setList] = useState([])
@@ -14,6 +15,7 @@ export default function TodoListsScreen({ navigation, route }) {
   const [username] = useContext(UsernameContext)
   const [token] = useContext(TokenContext)
   const [error, setError] = useState("")
+  const isFocus = useIsFocused(0)
   const todoListsRequest = () => {
     setList([])
     setIsLoadingVisible(true)
@@ -26,6 +28,7 @@ export default function TodoListsScreen({ navigation, route }) {
       setIsLoadingVisible(false)
     })
   }
+
   useEffect(() => {
     // appelé quand après avoir ajouté un élément depuis la page addTask
     if(route.params?.newItem) {
@@ -45,10 +48,6 @@ export default function TodoListsScreen({ navigation, route }) {
     })
   }
 
-  /* const exportToJson = () => {
-    const granted = await PermissionsAndroid.requestMultiple([PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE])
-  } */
-
   useEffect(() => {
     // appelé au premier chargement du composant
     todoListsRequest()
@@ -59,7 +58,7 @@ export default function TodoListsScreen({ navigation, route }) {
       <Text style={styles.text_items}>{error}</Text>
       {isLoadingVisible ? ( <ActivityIndicator size={'large'} style={{paddingTop: 50}} />) : (<></>)}
       <Text style={styles.text_items}>{list.length === 0 && !isLoadingVisible ? "Aucune tâche, vous pouvez en créer une nouvelle en appuyant sur le bouton +" : ""}</Text>
-      <FlatList data={list} renderItem={({item}) => <TodoListItem navigation={navigation} item={item} delete={deleteItem} />} style={{marginTop:20}}></FlatList>
+      <FlatList data={list} renderItem={({item}) => <TodoListItem navigation={navigation} item={item} delete={deleteItem} setError={setError} isFocus={isFocus} />} style={{marginTop:20}}></FlatList>
     </View>
     <FloatingButton position={styles.floatingButton1} function={todoListsRequest} image={refreshLogo} />
     <FloatingButton position={styles.floatingButton2} function={addItem} image={addLogo} />
